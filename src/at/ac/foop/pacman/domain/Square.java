@@ -1,14 +1,8 @@
 package at.ac.foop.pacman.domain;
 
-import javax.management.RuntimeErrorException;
-
-public class Square {
+public abstract class Square {
 	//Fields
-	//WallType type; //decides which 
-	int points; //The number of points of this square
-	Player player; //The current player on this square or null for no player
-	
-	//Constructors
+	Coordinate coordinate; //The coordinate of this square
 	
 	//Concrete Methods
 	/**
@@ -22,28 +16,26 @@ public class Square {
 	 * 
 	 * @param player The player which arrived on this field
 	 */
-	public void landedOn(Player player) {
-		if(this.player == null) {
-			this.player = player;
-			player.addPoints(points);
-			this.points = 0;
-		} else {
-			//decide which player eats the other one
-			//and call eat on that one
-		}
-	}
+	abstract public void enter(Player player);
 	
 	/**
 	 * The player has left the square and moved
 	 * to another one
 	 * @param player
 	 */
-	public void leave(Player player) {
-		if(this.player == player) {
-			this.player = null;
-		} else {
-			throw new RuntimeException("A Player that " +
-					"is not on this field can not leave this field.");
-		}
+	abstract public void leave(Player player);
+	
+	abstract public void reset();
+	
+	abstract public SquareType getType();
+	
+	abstract public Integer getPoints();
+	
+	public Coordinate getCoordinate() {
+		return coordinate;
+	}
+
+	public void setCoordinate(Coordinate coordinate) {
+		this.coordinate = coordinate;
 	}
 }
